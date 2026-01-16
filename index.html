@@ -2,20 +2,34 @@
 <html lang="es">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Taller360 | Repuestos compatibles</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AutoParts | Taller virtual</title>
   <style>
     :root{
-      --bg1:#f6f7fb; --bg2:#eef2f7;
+      /* Apple-ish: neutros, poco contraste, mucho aire */
+      --bg1:#f6f7fb;
+      --bg2:#f2f4f8;
+
       --card:#ffffff;
-      --line:#e6e8f0;
-      --text:#0f172a; --muted:#6b7280;
+      --card2:#f3f5f9;
+      --line:#e7e9f0;
+
+      --text:#0f172a;
+      --muted:#6b7280;
+
       --primary:#2563eb;
-      --shadow:0 18px 40px rgba(15,23,42,.10);
-      --shadow2:0 10px 24px rgba(15,23,42,.07);
-      --r:18px; --r2:14px;
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+
+      --shadow:0 18px 40px rgba(15,23,42,.08);
+      --shadow2:0 10px 24px rgba(15,23,42,.06);
+      --radius:18px;
+      --radius2:14px;
+
       --blur: blur(14px);
     }
+
     *{box-sizing:border-box}
     body{
       margin:0;
@@ -23,346 +37,377 @@
       color:var(--text);
       background:
         radial-gradient(1200px 700px at 15% -10%, rgba(37,99,235,.10), transparent 55%),
-        radial-gradient(900px 600px at 85% 5%, rgba(22,163,74,.06), transparent 55%),
+        radial-gradient(900px 600px at 85% 5%, rgba(22,163,74,.08), transparent 55%),
         linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
     }
     a{color:inherit; text-decoration:none}
-    .container{max-width:1180px; margin:0 auto; padding:0 18px;}
-    .muted{color:var(--muted)}
-    .chip{
-      font-size:12px; color:var(--muted);
-      border:1px solid rgba(231,233,240,.95);
-      background:rgba(255,255,255,.70);
-      padding:6px 10px; border-radius:999px;
-      box-shadow: 0 10px 22px rgba(15,23,42,.02);
-      display:inline-flex; align-items:center; gap:8px;
-    }
 
-    /* HEADER (más “separado” del cuerpo) */
+    .container{max-width:1240px; margin:0 auto; padding:0 18px;}
     header{
       position:sticky; top:0; z-index:50;
-      background: linear-gradient(180deg, rgba(235,238,246,.96) 0%, rgba(246,247,251,.86) 100%);
+      background:rgba(246,247,251,.78);
       backdrop-filter: var(--blur);
-      border-bottom:1px solid rgba(231,233,240,.95);
-      box-shadow: 0 14px 34px rgba(15,23,42,.14);
+      border-bottom:1px solid rgba(231,233,240,.9);
     }
     .topbar{
       display:flex; align-items:center; gap:12px;
       padding:14px 0;
     }
-    .brand{display:flex; align-items:center; gap:10px; min-width:170px;}
-    .logoImg{
-      height:28px; width:auto; display:block;
-      filter: drop-shadow(0 10px 14px rgba(15,23,42,.08));
+    .logo{
+      font-weight:900;
+      letter-spacing:.2px;
+      font-size:18px;
+      display:flex; align-items:center; gap:10px;
     }
+    .dotLogo{
+      width:10px; height:10px; border-radius:999px;
+      background:linear-gradient(135deg, rgba(37,99,235,.95), rgba(22,163,74,.75));
+      box-shadow:0 8px 18px rgba(37,99,235,.18);
+    }
+
     .pill{
       border:1px solid rgba(231,233,240,.95);
-      background:rgba(255,255,255,.86);
+      background:rgba(255,255,255,.78);
       border-radius:999px;
       padding:10px 12px;
       display:flex; align-items:center; gap:10px;
       color:var(--muted);
-      box-shadow: 0 10px 22px rgba(15,23,42,.05);
+      box-shadow: 0 10px 22px rgba(15,23,42,.03);
     }
     .search{flex:1; min-width:260px;}
     .search input{
       width:100%;
-      background:transparent; border:0; outline:0;
-      color:var(--text); font-size:14px;
+      background:transparent;
+      border:0;
+      outline:0;
+      color:var(--text);
+      font-size:14px;
     }
-    .searchBtn{
-      width:34px; height:34px;
-      border-radius:999px;
-      border:1px solid rgba(231,233,240,.95);
-      background:rgba(243,245,249,.90);
-      display:flex; align-items:center; justify-content:center;
-      cursor:pointer;
-      flex:0 0 auto;
-    }
-    .ssl{
-      display:flex; align-items:center; gap:8px;
-      border:1px solid rgba(231,233,240,.95);
-      background:rgba(255,255,255,.84);
-      padding:8px 10px; border-radius:999px;
-      color:var(--muted); font-size:12px;
-      box-shadow: 0 10px 22px rgba(15,23,42,.05);
-      white-space:nowrap;
-    }
-    .ssl b{color:var(--text); font-weight:950}
     .btn{
       border:1px solid rgba(231,233,240,.95);
-      background:rgba(255,255,255,.86);
+      background:rgba(255,255,255,.78);
       color:var(--text);
       padding:10px 12px;
       border-radius:14px;
       cursor:pointer;
-      transition:transform .06s ease, box-shadow .15s ease;
+      transition:transform .06s ease, box-shadow .15s ease, background .15s ease;
       white-space:nowrap;
-      box-shadow: 0 10px 22px rgba(15,23,42,.05);
-      font-weight:900;
+      box-shadow: 0 10px 22px rgba(15,23,42,.03);
     }
     .btn:hover{box-shadow: var(--shadow2)}
     .btn:active{transform:translateY(1px)}
     .btn.primary{
       background:linear-gradient(180deg, rgba(37,99,235,1) 0%, rgba(29,78,216,1) 100%);
-      color:white; border-color:transparent;
+      color:white;
+      border-color:transparent;
+      font-weight:800;
       box-shadow:0 18px 28px rgba(37,99,235,.18);
     }
+    .btn.ghost{background:transparent}
 
-    /* NAV horizontal (máx 7 items) */
-    .navRow{
-      padding:0 0 12px;
-    }
-    .nav{
-      display:flex; align-items:center; gap:10px;
-      flex-wrap:wrap;
-    }
-    .nav a, .nav button{
+    .ssl{
+      display:flex; align-items:center; gap:8px;
       border:1px solid rgba(231,233,240,.95);
       background:rgba(255,255,255,.72);
-      padding:10px 12px;
+      padding:8px 10px;
       border-radius:999px;
-      font-weight:900;
-      color:var(--text);
-      box-shadow: 0 10px 22px rgba(15,23,42,.02);
-      cursor:pointer;
+      color:var(--muted);
+      font-size:12px;
+      box-shadow: 0 10px 22px rgba(15,23,42,.03);
     }
-    .nav a:hover, .nav button:hover{box-shadow: var(--shadow2)}
-    .nav .active{
+    .ssl b{color:var(--text); font-weight:900}
+
+    /* Drawer menu */
+    .overlay{position:fixed; inset:0; background:rgba(15,23,42,.25); display:none; z-index:60}
+    .overlay.show{display:block}
+    .drawer{
+      position:fixed; top:0; left:0; height:100%; width:360px;
+      background:rgba(255,255,255,.86);
+      backdrop-filter: var(--blur);
+      border-right:1px solid rgba(231,233,240,.95);
+      transform:translateX(-105%);
+      transition:transform .25s ease;
+      padding:16px;
+      z-index:70;
+      box-shadow: var(--shadow);
+    }
+    .drawer.open{transform:translateX(0)}
+    .drawer .head{display:flex; align-items:center; justify-content:space-between; gap:10px}
+    .drawer .nav{margin-top:12px}
+    .drawer .nav a{
+      display:flex; align-items:center; gap:10px;
+      padding:12px 10px;
+      border-radius:14px;
+      border:1px solid transparent;
+      color:var(--text);
+    }
+    .drawer .nav a:hover{background:rgba(243,245,249,.9); border-color:rgba(231,233,240,.95)}
+    .drawer .nav a.active{
       background:rgba(37,99,235,.10);
       border-color:rgba(37,99,235,.25);
     }
+    .drawer .foot{
+      position:absolute; left:16px; right:16px; bottom:16px;
+      color:var(--muted); font-size:12px;
+    }
 
-    /* Dropdowns */
-    .ddWrap{position:relative; display:inline-block}
-    .dropdown{
-      position:absolute; top:48px; left:0;
-      min-width:240px;
-      background:rgba(255,255,255,.92);
-      backdrop-filter: var(--blur);
-      border:1px solid rgba(231,233,240,.95);
-      border-radius:16px;
-      box-shadow: var(--shadow);
-      padding:10px;
-      display:none;
-      z-index:100;
-    }
-    .dropdown.show{display:block}
-    .ddItem{
-      padding:10px 10px;
-      border-radius:12px;
-      font-weight:800;
-      cursor:pointer;
-      display:flex; justify-content:space-between; align-items:center;
-    }
-    .ddItem:hover{background:rgba(243,245,249,.9)}
-
-    /* Mega menú catálogo (7 categorías) */
-    .mega{
-      width:min(900px, 92vw);
-      padding:14px;
-    }
-    .megaGrid{
-      display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:10px;
-    }
-    .megaCard{
-      border:1px solid rgba(231,233,240,.95);
-      background:rgba(243,245,249,.75);
-      border-radius:16px;
-      padding:12px;
-      cursor:pointer;
-    }
-    .megaCard b{font-weight:950}
-    .megaCard .m{font-size:12px; color:var(--muted); margin-top:6px; line-height:1.45}
-
-    /* MAIN */
-    main{padding:18px 0 60px}
-    .promoStrip{
-      margin-top:14px;
-      display:grid;
-      grid-template-columns: 1.1fr 1.1fr repeat(3, .9fr);
-      gap:12px;
-      align-items:stretch;
-    }
-    .promo{
-      background:rgba(255,255,255,.92);
-      border:1px solid rgba(231,233,240,.95);
-      border-radius:18px;
-      box-shadow: var(--shadow2);
-      padding:16px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      min-height:92px;
-    }
-    .promo.big{
-      min-height:110px;
-    }
-    .promo .t{font-weight:950; font-size:16px}
-    .promo .d{margin-top:6px; color:var(--muted); font-size:12px; line-height:1.45}
-    .promoSmall{
-      display:grid; gap:10px;
-      align-content:center;
-    }
-    .pThumb{
-      width:44px; height:44px; border-radius:14px;
-      background:rgba(243,245,249,.95);
-      border:1px solid rgba(231,233,240,.95);
-      display:flex; align-items:center; justify-content:center;
-      color:var(--muted);
-      font-weight:900;
-      flex:0 0 auto;
-    }
-    .rowFlex{display:flex; gap:10px; align-items:center}
-    .stars{font-size:12px; color:rgba(245,158,11,.95); letter-spacing:.6px}
-    .price{font-weight:950}
-    .hero{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap:14px;
-      align-items:start;
-      margin-top:14px;
-    }
+    /* Layout */
     .card{
       background:rgba(255,255,255,.92);
       border:1px solid rgba(231,233,240,.95);
-      border-radius:18px;
+      border-radius:var(--radius);
       padding:18px;
       box-shadow: var(--shadow2);
     }
-    .soft{background:rgba(243,245,249,.78); box-shadow:none}
-    .h1{font-size:34px; line-height:1.05; margin:0; font-weight:950; letter-spacing:-.02em}
-    .sub{margin:10px 0 0; color:var(--muted); font-size:14px; line-height:1.5}
-    .ctaRow{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
-    .grid3{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:14px;
-    }
-    .feature{
-      padding:14px;
-      border:1px solid rgba(231,233,240,.95);
-      border-radius:16px;
-      background:rgba(255,255,255,.92);
-      box-shadow: 0 12px 26px rgba(15,23,42,.04);
-    }
-    .feature b{font-weight:950}
-    .feature .muted{color:var(--muted); font-size:12px; line-height:1.45; margin-top:6px}
-    .kpi{
-      display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px;
-    }
-    .kpi .box{
-      padding:14px;
-      border:1px solid rgba(231,233,240,.95);
-      border-radius:16px;
-      background:rgba(255,255,255,.92);
-      box-shadow: 0 12px 26px rgba(15,23,42,.04);
-    }
-    .kpi .n{font-size:18px; font-weight:950}
-    .kpi .l{color:var(--muted); font-size:12px; margin-top:6px; line-height:1.45}
-
-    .two{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px;}
-    .sectionTitle{font-size:18px; font-weight:950; margin:0 0 10px}
-    .list{display:grid; gap:10px}
-    .list .row{
-      padding:12px 14px; border-radius:16px;
-      border:1px solid rgba(231,233,240,.95);
-      background:rgba(255,255,255,.92);
-      display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
-      box-shadow: 0 12px 26px rgba(15,23,42,.04);
-    }
-    .row .t{font-weight:950}
-    .row .d{color:var(--muted); font-size:12px; margin-top:6px; line-height:1.45}
-
-    /* Marcas en gris (sección confianza) */
-    .brands{
-      margin-top:16px;
-      padding:14px 16px;
-      border-radius:18px;
-      border:1px solid rgba(231,233,240,.95);
-      background:rgba(255,255,255,.72);
-      box-shadow: 0 12px 26px rgba(15,23,42,.03);
-    }
-    .brandsTitle{font-weight:950; margin:0 0 10px}
-    .brandList{
-      display:flex; flex-wrap:wrap; gap:10px;
-      color:#9aa0aa;
-      font-weight:900;
-      letter-spacing:.2px;
-      font-size:12px;
-    }
-    .brandList span{
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px dashed rgba(180,185,198,.55);
-      background:rgba(245,246,250,.55);
-    }
-
-    /* Footer oscuro tipo marketplace */
-    footer{
-      margin-top:18px;
-      background:rgba(15,23,42,.92);
-      color:rgba(255,255,255,.82);
-      border-top:1px solid rgba(255,255,255,.08);
-    }
-    .footWrap{padding:22px 0}
-    .footGrid{
+    .card.soft{background:rgba(243,245,249,.85); box-shadow:none}
+    .hero{padding:18px 0 10px}
+    .hero-grid{
       display:grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap:16px;
+      grid-template-columns: 1.2fr .8fr;
+      gap:14px;
     }
-    .footCol h4{margin:0 0 10px; font-size:13px; color:white; font-weight:950}
-    .footCol a{display:block; padding:6px 0; font-size:12px; color:rgba(255,255,255,.70)}
-    .footCol a:hover{color:white}
-    .payRow{
-      margin-top:14px;
-      display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    .h-title{margin:0 0 10px; font-size:18px; font-weight:900}
+    .sub{color:var(--muted); margin:0 0 10px; font-size:13px; line-height:1.45}
+    .cta{display:flex; gap:10px; flex-wrap:wrap}
+    .row{display:flex; gap:14px; align-items:stretch; flex-wrap:wrap}
+
+    .hello{
+      font-size:14px; font-weight:900;
+      background:linear-gradient(90deg, rgba(37,99,235,.12), rgba(22,163,74,.10));
+      border:1px solid rgba(37,99,235,.18);
+      padding:10px 12px;
+      border-radius:14px;
+      margin-bottom:12px;
+    }
+
+    /* Secondary top buttons (your yellow notes but now elegant) */
+    .menu-row{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .tag{
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.78);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:850;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(15,23,42,.03);
+    }
+    .tag.active{border-color:rgba(37,99,235,.35); box-shadow:0 0 0 3px rgba(37,99,235,.10) inset;}
+
+    .mini-info{display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-top:14px;}
+    .mini-card{
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:16px;
+      background:rgba(243,245,249,.85);
+      padding:12px;
+    }
+    .mini-card .t{font-weight:900}
+    .mini-card .d{color:var(--muted); font-size:12px; margin-top:4px}
+
+    .section-title{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      margin:16px 0 10px;
+    }
+    .section-title h2{margin:0; font-size:16px; font-weight:900}
+    .chip{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.65);
+      padding:6px 10px;
+      border-radius:999px;
+      box-shadow: 0 10px 22px rgba(15,23,42,.02);
+    }
+
+    /* Catalog */
+    .grid{
+      display:grid;
+      grid-template-columns: 300px 1fr;
+      gap:14px;
+      padding-bottom:40px;
+    }
+    .filters .label{color:var(--muted); font-size:12px; margin-top:10px}
+    .toggle{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:12px;
+      border-radius:16px;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(243,245,249,.85);
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .toggle b{color:var(--ok)}
+    .pill-row{display:flex; gap:8px; flex-wrap:wrap; margin-top:8px}
+    .pill2{
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.78);
+      color:var(--muted);
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:12px;
+      cursor:pointer;
+      box-shadow: 0 10px 22px rgba(15,23,42,.02);
+    }
+    .pill2.active{color:var(--text); border-color:rgba(37,99,235,.35)}
+
+    .products{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+    }
+    .p{
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:var(--radius);
+      background:rgba(255,255,255,.92);
+      padding:14px;
+      min-height:265px;
+      display:flex; flex-direction:column; justify-content:space-between;
+      box-shadow: 0 12px 26px rgba(15,23,42,.05);
     }
     .badge{
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-      padding:8px 10px;
-      border-radius:12px;
+      display:inline-flex; gap:6px; align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
       font-size:12px;
-      display:inline-flex; align-items:center; gap:8px;
-      color:rgba(255,255,255,.82);
+      margin-bottom:10px;
+      width:max-content;
+    }
+    .badge.ok{background:rgba(22,163,74,.10); border:1px solid rgba(22,163,74,.20); color:#14532d}
+    .badge.warn{background:rgba(245,158,11,.12); border:1px solid rgba(245,158,11,.22); color:#92400e}
+    .p .title{font-weight:900; margin:0 0 6px}
+    .p .muted{color:var(--muted); font-size:13px; margin:0 0 10px}
+    .p .price{display:flex; justify-content:space-between; align-items:center}
+    .p .price strong{font-size:16px}
+    .p .type{font-size:12px; color:var(--muted); border:1px solid rgba(231,233,240,.95); padding:6px 9px; border-radius:999px; background:rgba(243,245,249,.85)}
+    .p .actions{display:flex; gap:10px; margin-top:10px; flex-wrap:wrap}
+
+    /* Pages */
+    .page{display:none}
+    .page.active{display:block}
+
+    /* Inputs */
+    .form-row{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .field{
+      width:100%;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.85);
+      border-radius:14px;
+      padding:10px 12px;
+      color:var(--text);
+      outline:0;
+      box-shadow: 0 10px 22px rgba(15,23,42,.02);
+    }
+    .field::placeholder{color:rgba(107,114,128,.85)}
+
+    /* Garage */
+    .garage-grid{display:grid; grid-template-columns: 1fr 1fr; gap:14px;}
+    .veh-list{display:grid; gap:10px}
+    .veh{
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:16px;
+      background:rgba(255,255,255,.88);
+      padding:12px;
+      display:flex; justify-content:space-between; align-items:center; gap:10px;
+      cursor:pointer;
+      box-shadow: 0 12px 26px rgba(15,23,42,.04);
+    }
+    .veh.active{border-color:rgba(37,99,235,.35); box-shadow:0 0 0 3px rgba(37,99,235,.10) inset;}
+    .veh .name{font-weight:900}
+    .veh .meta{color:var(--muted); font-size:12px; margin-top:2px}
+
+    /* Planificador (Dashboard + Checklist) */
+    .planDash{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;}
+    .carBox{
+      display:flex; gap:14px; align-items:center; flex-wrap:wrap;
+      padding:14px;
+      border-radius:16px;
+      background:rgba(243,245,249,.85);
+      border:1px dashed rgba(107,114,128,.25);
+    }
+    .carSvg{
+      width:170px; height:110px;
+      background:rgba(15,23,42,.02);
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:14px;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .legend{display:flex; gap:10px; flex-wrap:wrap}
+    .dot{display:inline-flex; align-items:center; gap:8px; color:var(--muted); font-size:12px}
+    .circle{width:10px; height:10px; border-radius:50%}
+    .circle.ok{background:var(--ok)}
+    .circle.warn{background:var(--warn)}
+    .circle.bad{background:var(--bad)}
+
+    .comp-list{display:grid; gap:10px}
+    .comp{
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(255,255,255,.92);
+      border-radius:18px;
+      padding:12px;
+      box-shadow: 0 12px 26px rgba(15,23,42,.04);
+    }
+    .comp .top{display:flex; justify-content:space-between; gap:10px; align-items:flex-start}
+    .comp .name{font-weight:900}
+    .comp .small{color:var(--muted); font-size:12px; margin-top:2px}
+    .bar{
+      height:8px; border-radius:999px; background:rgba(107,114,128,.14);
+      overflow:hidden; margin-top:10px;
+    }
+    .bar > div{height:100%}
+    .status-pill{
+      font-size:12px; padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(231,233,240,.95);
+      background:rgba(243,245,249,.85);
+      color:var(--muted);
+      width:max-content;
     }
 
     /* Chat */
-    .chatFab{
-      position:fixed; right:18px; bottom:18px; z-index:70;
-      display:flex; align-items:center; gap:10px;
-      padding:12px 14px;
-      border-radius:999px;
-      background:rgba(255,255,255,.92);
-      border:1px solid rgba(231,233,240,.95);
-      box-shadow: var(--shadow);
+    .chat-fab{
+      position:fixed; right:18px; bottom:18px; z-index:80;
+      width:56px; height:56px; border-radius:999px;
+      border:1px solid rgba(37,99,235,.25);
+      background:rgba(255,255,255,.86);
+      color:var(--text);
       cursor:pointer;
-      font-weight:950;
+      display:flex; align-items:center; justify-content:center;
+      box-shadow: var(--shadow);
     }
-    .chatDot{
-      width:10px; height:10px; border-radius:999px;
-      background:rgba(22,163,74,.85);
-      box-shadow: 0 0 0 6px rgba(22,163,74,.12);
+    .chat-panel{
+      position:fixed; right:18px; bottom:86px; z-index:80;
+      width:380px; max-width: calc(100vw - 36px);
+      background:rgba(255,255,255,.88);
+      backdrop-filter: var(--blur);
+      border:1px solid rgba(231,233,240,.95);
+      border-radius:18px;
+      box-shadow: var(--shadow);
+      display:none;
+      overflow:hidden;
     }
+    .chat-panel.show{display:block}
+    .chat-head{display:flex; align-items:center; justify-content:space-between; padding:12px 12px; border-bottom:1px solid rgba(231,233,240,.95)}
+    .chat-body{padding:12px; height:260px; overflow:auto}
+    .msg{
+      background:rgba(243,245,249,.85);
+      border:1px solid rgba(231,233,240,.95);
+      padding:10px 10px;
+      border-radius:14px;
+      margin-bottom:10px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .chat-foot{display:flex; gap:10px; padding:12px; border-top:1px solid rgba(231,233,240,.95)}
+    .chat-foot input{flex:1}
 
     /* Responsive */
     @media(max-width:1100px){
-      .promoStrip{grid-template-columns:1fr 1fr; }
-    }
-    @media(max-width:980px){
-      .hero{grid-template-columns:1fr}
-      .grid3{grid-template-columns:1fr}
-      .two{grid-template-columns:1fr}
-      .footGrid{grid-template-columns:1fr 1fr}
-      .brand{min-width:auto}
+      .hero-grid{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .products{grid-template-columns:1fr}
+      .garage-grid{grid-template-columns:1fr}
+      .planDash{grid-template-columns:1fr}
       .ssl{display:none}
-    }
-    @media(max-width:560px){
-      .promoStrip{grid-template-columns:1fr}
-      .footGrid{grid-template-columns:1fr}
-      .topbar{flex-wrap:wrap}
-      .search{min-width:100%}
     }
   </style>
 </head>
@@ -371,355 +416,870 @@
 <header>
   <div class="container">
     <div class="topbar">
-      <div class="brand">
-        <img class="logoImg" src="taller360-logo.png" alt="Taller360" />
+      <button class="btn" id="openMenu" title="Menú">☰</button>
+
+      <div class="logo">
+        <span class="dotLogo"></span>
+        AutoParts
       </div>
 
-      <div class="pill search" title="Buscar por texto o por foto">
-        🔎 <input id="searchInput" placeholder="Buscar repuestos (ej: filtro de aceite)" />
-        <button class="searchBtn" id="photoSearchBtn" title="Buscar por foto">📷</button>
-        <input id="photoFile" type="file" accept="image/*" capture="environment" style="display:none" />
+      <div class="pill search" aria-label="buscador">
+        🔎 <input id="searchInput" placeholder="Busca por nombre, código o sube foto (ej: filtro de aceite)" />
       </div>
 
-      <div class="ssl" title="Conexión segura">🔒 <b>SSL</b> Certificado de seguridad</div>
+      <div class="pill" title="Vehículo activo">
+        🚗 <span>Mi vehículo: <b id="activeVehicleLabel" style="color:var(--text)">Kia Rio 2018</b></span>
+      </div>
 
-      <button class="btn" id="btnLogin">Iniciar sesión</button>
-      <button class="btn primary" id="btnSignup">Crear cuenta</button>
-    </div>
+      <div class="ssl" title="Conexión segura">
+        🔒 <b>SSL</b> <span>Certificado de seguridad</span>
+      </div>
 
-    <!-- Menú horizontal (7 items). Extras dentro de "Más" -->
-    <div class="navRow">
-      <nav class="nav" aria-label="Menú principal">
-        <a class="active" href="#" id="navHome">Inicio</a>
-        <a href="#" id="navOffers">Ofertas del día</a>
-
-        <div class="ddWrap">
-          <button id="navCatalog">Catálogo ▾</button>
-          <div class="dropdown mega" id="ddCatalog" role="menu" aria-label="Catálogo">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px">
-              <div style="font-weight:950">Categorías</div>
-              <span class="chip">Máx. 7</span>
-            </div>
-            <div class="megaGrid">
-              <div class="megaCard" data-cat="Suspensión"><b>Suspensión</b><div class="m">Amortiguadores, bujes, rótulas</div></div>
-              <div class="megaCard" data-cat="Frenos"><b>Frenos</b><div class="m">Pastillas, discos, líquidos</div></div>
-              <div class="megaCard" data-cat="Filtros"><b>Filtros</b><div class="m">Aceite, aire, cabina, combustible</div></div>
-              <div class="megaCard" data-cat="Aceites"><b>Aceites</b><div class="m">Motor, caja, diferenciales</div></div>
-              <div class="megaCard" data-cat="Encendido"><b>Encendido</b><div class="m">Bujías, bobinas, sensores</div></div>
-              <div class="megaCard" data-cat="Llantas"><b>Llantas</b><div class="m">Neumáticos, aros, válvulas</div></div>
-              <div class="megaCard" data-cat="Todos"><b>Todos</b><div class="m">Ver todo el catálogo</div></div>
-            </div>
-            <div style="margin-top:10px" class="muted">Demo: dentro de cada categoría luego puedes abrir subcategorías ilimitadas.</div>
-          </div>
-        </div>
-
-        <a href="#" id="navAlliances">Alianzas</a>
-        <a href="#" id="navHow">Cómo funciona</a>
-        <a href="#" id="navBlog">Blog</a>
-
-        <div class="ddWrap">
-          <button id="navMore">Más ▾</button>
-          <div class="dropdown" id="ddMore" role="menu" aria-label="Más opciones">
-            <div class="ddItem" data-go="about">Quiénes somos <span>›</span></div>
-            <div class="ddItem" data-go="help">Ayuda <span>›</span></div>
-          </div>
-        </div>
-      </nav>
+      <button class="btn">Cuenta</button>
+      <button class="btn primary">🛒 Carrito (<span id="cartCount">2</span>)</button>
     </div>
   </div>
 </header>
 
+<!-- Drawer (MENÚ máx 7) -->
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <div class="head">
+    <div style="display:flex; align-items:center; gap:10px">
+      <div class="logo" style="font-size:16px"><span class="dotLogo"></span>AutoParts</div>
+      <span class="chip" id="vehChip">Perfil: Kia Rio 2018</span>
+    </div>
+    <button class="btn" id="closeMenu">✕</button>
+  </div>
+
+  <p class="sub" style="margin-top:10px">Navegación (máx 7)</p>
+
+  <!-- EXACTAMENTE 7 ITEMS -->
+  <nav class="nav" id="nav">
+    <a href="#" data-page="inicio" class="active">🏠 Inicio</a>
+    <a href="#" data-page="garaje">🚗 Mi garaje</a>
+    <a href="#" data-page="nuevaCotizacion">🧾 Nueva cotización</a>
+    <a href="#" data-page="cotizaciones">📄 Ver cotizaciones</a>
+    <a href="#" data-page="planificador">🛠️ Planificador / Historial</a>
+    <a href="#" data-page="accesorios">✨ Accesorios</a>
+    <a href="#" data-page="quienesSomos">ℹ️ Quiénes somos</a>
+  </nav>
+
+  <div class="foot">
+    Tip: selecciona tu vehículo para que la búsqueda y recomendaciones sean precisas.
+  </div>
+</aside>
+
 <main class="container">
 
-  <!-- Franja superior: promo / producto estrella / productos -->
-  <section class="promoStrip" aria-label="Promos y destacados">
-    <div class="promo big">
-      <div class="t">Promoción del día</div>
-      <div class="d">Combo “Cambio de aceite” con filtro compatible (OEM / alterno). *Demo.</div>
-    </div>
+  <!-- INICIO -->
+  <section class="page active" id="page-inicio">
+    <div class="hero">
+      <div class="hello">HOLA JULIO CESAR! BIENVENIDO A TU TALLER VIRTUAL</div>
 
-    <div class="promo big">
-      <div class="t">Producto estrella</div>
-      <div class="d">Lo más vendido esta semana. *Demo.</div>
-    </div>
+      <!-- Botonera rápida (no cuenta como el menú del curso; el menú real es el drawer) -->
+      <div class="menu-row">
+        <button class="tag active" data-pagebtn="inicio">Inicio</button>
+        <button class="tag" data-pagebtn="garaje">Mi garaje</button>
+        <button class="tag" data-pagebtn="nuevaCotizacion">Nueva cotización</button>
+        <button class="tag" data-pagebtn="cotizaciones">Ver cotizaciones</button>
+      </div>
 
-    <div class="promo">
-      <div class="rowFlex">
-        <div class="pThumb">IMG</div>
-        <div>
-          <div class="t">Filtro aceite</div>
-          <div class="d"><span class="price">S/ 48</span> · <span class="stars">★★★★★</span></div>
+      <div class="hero-grid" style="margin-top:14px;">
+        <div class="card">
+          <h3 class="h-title">Dashboard simple</h3>
+          <p class="sub">
+            - Métricas: gasto por mantenimiento (por año)<br>
+            - Línea de tiempo: cuánto falta para el próximo mantenimiento<br>
+            - Valor agregado: promociones, alianzas, asesor y búsqueda guiada
+          </p>
+
+          <div class="mini-info">
+            <div class="mini-card">
+              <div class="t">Compatibilidad</div>
+              <div class="d">Filtrado por tu modelo</div>
+            </div>
+            <div class="mini-card">
+              <div class="t">OEM vs Alterno</div>
+              <div class="d">Comparación rápida</div>
+            </div>
+            <div class="mini-card">
+              <div class="t">Omnicanal</div>
+              <div class="d">Recordatorios de mantto</div>
+            </div>
+          </div>
+
+          <div class="section-title" style="margin-top:16px">
+            <h2>Promociones</h2>
+            <span class="chip">Destacados</span>
+          </div>
+          <div class="row">
+            <div class="mini-card" style="flex:1">
+              <div class="t">-10% filtros</div>
+              <div class="d">Usuarios registrados (hasta fin de mes)</div>
+            </div>
+            <div class="mini-card" style="flex:1">
+              <div class="t">Entrega diferida</div>
+              <div class="d">Compra hoy, entrega en fecha de mantto</div>
+            </div>
+          </div>
+
+          <div class="section-title">
+            <h2>Alianzas</h2>
+            <span class="chip">Talleres asociados</span>
+          </div>
+          <div class="row">
+            <div class="mini-card" style="flex:1">
+              <div class="t">Taller A</div>
+              <div class="d">Descuento mano de obra con tu cuenta</div>
+            </div>
+            <div class="mini-card" style="flex:1">
+              <div class="t">Taller B</div>
+              <div class="d">Diagnóstico básico sin costo</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="section-title">
+            <h2>Próximo mantenimiento</h2>
+            <span class="chip">Basado en <span id="kmLabel">78,400</span> km</span>
+          </div>
+          <p class="sub">
+            A los <b>80,000 km</b> te sugerimos: aceite + filtro aceite + filtro aire + revisión frenos.
+          </p>
+
+          <div class="cta">
+            <button class="btn primary" id="btnVerCotMantto">Ver cotización de prox mantenimiento</button>
+            <button class="btn" data-goto="planificador">Ver estatus del vehículo</button>
+          </div>
+
+          <div class="card soft" style="margin-top:14px;">
+            <h3 class="h-title" style="margin-bottom:6px">Preliminar de lo que se necesita</h3>
+            <div class="sub" style="margin:0">
+              <div style="display:flex; justify-content:space-between; gap:10px">
+                <span>- Aceite Motul x 1 gal</span><b style="color:var(--ok)">Necesario</b>
+              </div>
+              <div style="display:flex; justify-content:space-between; gap:10px">
+                <span>- Filtro de aceite (modelo…)</span><b style="color:var(--ok)">Necesario</b>
+              </div>
+              <div style="display:flex; justify-content:space-between; gap:10px">
+                <span>- Filtro de aire (modelo…)</span><b style="color:var(--ok)">Necesario</b>
+              </div>
+              <div style="display:flex; justify-content:space-between; gap:10px">
+                <span>- Disco de freno</span><b style="color:var(--warn)">Opcional</b>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
-    <div class="promo">
-      <div class="rowFlex">
-        <div class="pThumb">IMG</div>
-        <div>
-          <div class="t">Aceite 5W-30</div>
-          <div class="d"><span class="price">S/ 89</span> · <span class="stars">★★★★☆</span></div>
-        </div>
-      </div>
+    <div class="section-title">
+      <h2>Catálogo (vista rápida)</h2>
+      <span class="chip">Solo compatibles: ON</span>
     </div>
 
-    <div class="promo">
-      <div class="rowFlex">
-        <div class="pThumb">IMG</div>
-        <div>
-          <div class="t">Pastillas freno</div>
-          <div class="d"><span class="price">S/ 120</span> · <span class="stars">★★★★☆</span></div>
+    <section class="grid">
+      <aside class="card">
+        <h2 style="margin:0; font-size:15px; font-weight:900">Filtros</h2>
+        <div class="toggle">
+          <span>Mostrar solo compatibles</span>
+          <b>ON</b>
+        </div>
+
+        <div class="label">Tipo</div>
+        <div class="pill-row">
+          <span class="pill2 active">Original (OEM)</span>
+          <span class="pill2">Alternativo</span>
+          <span class="pill2">Genérico</span>
+        </div>
+
+        <div class="label">Categorías</div>
+        <div class="pill-row">
+          <span class="pill2">Aceite</span>
+          <span class="pill2 active">Filtros</span>
+          <span class="pill2">Frenos</span>
+          <span class="pill2">Batería</span>
+        </div>
+
+        <div class="label">Ayuda</div>
+        <div class="pill-row">
+          <span class="pill2" id="btnFoto">📷 Buscar por foto</span>
+          <span class="pill2" id="btnAsesor">💬 Hablar con asesor</span>
+        </div>
+      </aside>
+
+      <section class="products">
+        <div class="p">
+          <div>
+            <span class="badge ok">✅ Compatible</span>
+            <p class="title">Filtro de aceite (OEM)</p>
+            <p class="muted"><span id="vehInline">Kia Rio 2018</span> • Código: KIA-OF-218</p>
+          </div>
+          <div>
+            <div class="price">
+              <strong>S/ 48</strong>
+              <span class="type">Original</span>
+            </div>
+            <div class="actions">
+              <button class="btn primary">Agregar</button>
+              <button class="btn">Ver alternos</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="p">
+          <div>
+            <span class="badge ok">✅ Compatible</span>
+            <p class="title">Aceite 5W-30 (Alternativo)</p>
+            <p class="muted">Recomendado para tu motor • 4L</p>
+          </div>
+          <div>
+            <div class="price">
+              <strong>S/ 89</strong>
+              <span class="type">Alternativo</span>
+            </div>
+            <div class="actions">
+              <button class="btn primary">Agregar</button>
+              <button class="btn">Comparar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="p">
+          <div>
+            <span class="badge warn">⚠️ Revisar</span>
+            <p class="title">Pastillas de freno (Genérico)</p>
+            <p class="muted">Puede variar por versión • confirma con foto</p>
+          </div>
+          <div>
+            <div class="price">
+              <strong>S/ 120</strong>
+              <span class="type">Genérico</span>
+            </div>
+            <div class="actions">
+              <button class="btn" id="btnSubirFoto">📷 Subir foto</button>
+              <button class="btn" id="btnAsesor2">Asesor</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  </section>
+
+  <!-- GARAJE -->
+  <section class="page" id="page-garaje">
+    <div class="section-title">
+      <h2>Mi garaje</h2>
+      <span class="chip">Selecciona un vehículo para activar su perfil</span>
+    </div>
+
+    <div class="garage-grid">
+      <div class="card">
+        <h3 class="h-title">Vehículos registrados</h3>
+        <div class="veh-list" id="vehList"></div>
+      </div>
+
+      <div class="card">
+        <h3 class="h-title">Agregar nuevo vehículo</h3>
+        <p class="sub">Esto define compatibilidad, planificador y recomendaciones.</p>
+
+        <div class="form-row">
+          <input class="field" id="fMarca" placeholder="Marca (ej: Volkswagen)">
+          <input class="field" id="fModelo" placeholder="Modelo (ej: Tiguan)">
+          <input class="field" id="fAnio" placeholder="Año (ej: 2020)" type="number">
+          <input class="field" id="fMotor" placeholder="Motor/versión (ej: 1.4 TSI)">
+          <input class="field" id="fKm" placeholder="Km actuales (ej: 78400)" type="number">
+          <input class="field" id="fPlaca" placeholder="Placa/VIN (opcional)">
+        </div>
+
+        <div class="cta" style="margin-top:12px">
+          <button class="btn primary" id="btnAddVeh">Guardar vehículo</button>
+          <button class="btn" data-goto="planificador">Ir al planificador</button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Hero + panel lateral -->
-  <section class="hero">
+  <!-- NUEVA COTIZACIÓN -->
+  <section class="page" id="page-nuevaCotizacion">
+    <div class="section-title">
+      <h2>Nueva cotización</h2>
+      <span class="chip">Basada en tu vehículo activo</span>
+    </div>
+
     <div class="card">
-      <div class="chip">🚗 Compatibilidad por vehículo • OEM vs Alterno • Omnicanal</div>
-      <h1 class="h1">Compra repuestos sin equivocarte.<br>Primero tu vehículo, luego el repuesto.</h1>
       <p class="sub">
-        Registra tu auto (marca, modelo, año, serie, km) y el catálogo se filtra automáticamente.
-        Si no sabes el nombre, sube una foto del repuesto o etiqueta y te ayudamos a identificarlo.
+        Crea una cotización rápida (para el curso). Luego podrás verla en “Ver cotizaciones”.
       </p>
 
-      <div class="ctaRow">
-        <button class="btn primary" id="ctaStart">Empezar</button>
-        <button class="btn" id="ctaDemo">Ver demo</button>
-        <span class="chip">🔒 Navegación segura (SSL)</span>
+      <div class="form-row">
+        <input class="field" id="qTitulo" placeholder="Título (ej: Mantenimiento 80,000 km)">
+        <input class="field" id="qNotas" placeholder="Notas (opcional)">
       </div>
 
-      <div class="grid3">
-        <div class="feature">
-          <b>Compatibilidad</b>
-          <div class="muted">Resultados alineados a tu vehículo. Evita compras equivocadas.</div>
-        </div>
-        <div class="feature">
-          <b>OEM vs Alterno</b>
-          <div class="muted">Elige Original (OEM) o Alternativo/Genérico con comparaciones simples.</div>
-        </div>
-        <div class="feature">
-          <b>Recordatorios</b>
-          <div class="muted">Email/WhatsApp/SMS según km, historial y ficha técnica.</div>
-        </div>
-      </div>
-    </div>
-
-    <aside class="card soft">
-      <p style="font-size:18px; font-weight:950; margin:0 0 10px">Qué ganas con Taller360</p>
-      <div class="kpi">
-        <div class="box">
-          <div class="n">+ Precisión</div>
-          <div class="l">Búsqueda guiada por vehículo (no por “cualquier marca”).</div>
-        </div>
-        <div class="box">
-          <div class="n">+ Control</div>
-          <div class="l">Historial de mantenimientos, incluso si compraste fuera.</div>
-        </div>
-        <div class="box">
-          <div class="n">+ Ahorro</div>
-          <div class="l">Alternos sugeridos: más baratos / más eficientes.</div>
-        </div>
-        <div class="box">
-          <div class="n">+ Soporte</div>
-          <div class="l">Asesor + IA para foto/etiqueta/gravado.</div>
-        </div>
+      <div class="form-row" style="margin-top:10px">
+        <input class="field" id="qItem" placeholder="Ítem (ej: Filtro de aceite OEM)">
+        <input class="field" id="qPrecio" placeholder="Precio (S/)" type="number">
       </div>
 
-      <div style="height:1px; background:rgba(231,233,240,.95); margin:12px 0;"></div>
-
-      <p style="font-size:18px; font-weight:950; margin:0 0 10px">Búsqueda por foto</p>
-      <div class="list">
-        <div class="row">
-          <div>
-            <div class="t">Sube una foto</div>
-            <div class="d">Del repuesto, etiqueta o grabado. Te damos coincidencias y un asesor si no alcanza.</div>
-          </div>
-          <button class="btn" id="btnTryPhoto">📷 Probar</button>
-        </div>
+      <div class="cta" style="margin-top:12px">
+        <button class="btn" id="btnAddItem">Agregar ítem</button>
+        <button class="btn primary" id="btnSaveQuote">Guardar cotización</button>
       </div>
-    </aside>
-  </section>
 
-  <!-- Aquí en vez de “Promociones” (tachado), dejamos solo “Alianzas” como en tu idea -->
-  <section class="two">
-    <div class="card">
-      <p class="sectionTitle">Alianzas</p>
-      <div class="list">
-        <div class="row">
-          <div>
-            <div class="t">Talleres asociados</div>
-            <div class="d">Retiro en punto + beneficios por ser usuario.</div>
-          </div>
-          <span class="chip">Ver</span>
-        </div>
-        <div class="row">
-          <div>
-            <div class="t">Descuentos por miembros</div>
-            <div class="d">Promos exclusivas según campañas.</div>
-          </div>
-          <span class="chip">Ver</span>
-        </div>
-        <div class="row">
-          <div>
-            <div class="t">Soporte omnicanal</div>
-            <div class="d">Chat + email + WhatsApp (demo).</div>
-          </div>
-          <span class="chip">Ver</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="card">
-      <p class="sectionTitle">Ofertas del día</p>
-      <div class="list">
-        <div class="row">
-          <div>
-            <div class="t">Cambio de aceite</div>
-            <div class="d">Combo sugerido por motor y km (OEM / alterno).</div>
-          </div>
-          <span class="chip">Ver</span>
-        </div>
-        <div class="row">
-          <div>
-            <div class="t">Frenos</div>
-            <div class="d">Pastillas + discos + líquidos según tu versión.</div>
-          </div>
-          <span class="chip">Ver</span>
-        </div>
-        <div class="row">
-          <div>
-            <div class="t">Accesorios</div>
-            <div class="d">Aromatizadores, tapetes, limpia parabrisas, etc.</div>
-          </div>
-          <span class="chip">Ver</span>
-        </div>
+      <div class="card soft" style="margin-top:14px;">
+        <h3 class="h-title" style="margin-bottom:8px">Ítems en esta cotización</h3>
+        <div id="quoteItems" class="sub" style="margin:0"></div>
       </div>
     </div>
   </section>
 
-  <!-- Marcas en gris -->
-  <section class="brands" aria-label="Marcas con las que trabajamos">
-    <p class="brandsTitle">Marcas automotrices con las que trabajamos</p>
-    <div class="brandList" id="brandList">
-      <!-- Demo: cambia/edita esta lista cuando quieras -->
-      <span>Toyota</span><span>Kia</span><span>Hyundai</span><span>Nissan</span><span>Mitsubishi</span>
-      <span>Volkswagen</span><span>Chevrolet</span><span>Ford</span><span>Honda</span><span>Mazda</span>
-      <span>Suzuki</span><span>Changan</span><span>MG</span><span>BMW</span><span>Mercedes-Benz</span>
-      <span>Audi</span><span>Jeep</span><span>Subaru</span><span>Peugeot</span><span>Renault</span>
+  <!-- COTIZACIONES -->
+  <section class="page" id="page-cotizaciones">
+    <div class="section-title">
+      <h2>Mis cotizaciones</h2>
+      <span class="chip" id="quotesCount">0 registradas</span>
+    </div>
+
+    <div class="card">
+      <div class="sub" id="quotesTable" style="margin:0"></div>
+    </div>
+  </section>
+
+  <!-- PLANIFICADOR / HISTORIAL -->
+  <section class="page" id="page-planificador">
+    <div class="section-title">
+      <h2>Planificador / Historial / Estatus</h2>
+      <span class="chip">Checklist + Dashboard</span>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div class="planDash">
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <h2>Resumen</h2>
+          <span class="chip">Km actual: <span id="kmNow">78,400</span></span>
+        </div>
+
+        <div class="row" style="gap:10px">
+          <div class="mini-card" style="flex:1; min-width:160px;">
+            <div class="t">🟢 OK</div>
+            <div class="d"><b id="kpiOk">0</b> componentes</div>
+          </div>
+          <div class="mini-card" style="flex:1; min-width:160px;">
+            <div class="t">🟡 Próximo</div>
+            <div class="d"><b id="kpiWarn">0</b> componentes</div>
+          </div>
+          <div class="mini-card" style="flex:1; min-width:160px;">
+            <div class="t">🔴 Urgente</div>
+            <div class="d"><b id="kpiBad">0</b> componentes</div>
+          </div>
+        </div>
+
+        <div class="card soft" style="margin-top:12px;">
+          <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+            <input class="field" id="kmUpdate" type="number" placeholder="Actualizar km (ej: 79200)">
+            <button class="btn primary" id="btnUpdateKm">Actualizar</button>
+            <button class="btn" id="btnAskKm">Recordarme actualizar km</button>
+          </div>
+          <p class="sub" style="margin-top:10px">
+            (Demo) recalculamos próximos cambios según tu uso real.
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title" style="margin-top:0">
+          <h2>Semáforo del vehículo</h2>
+          <span class="chip" id="trafficLabel">Estado general: —</span>
+        </div>
+
+        <div class="carBox">
+          <div class="carSvg">
+            <svg width="150" height="85" viewBox="0 0 220 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M40 70 L60 40 C65 33 75 28 90 28 H140 C155 28 165 33 170 40 L190 70" stroke="rgba(15,23,42,.55)" stroke-width="4" stroke-linecap="round"/>
+              <path d="M35 70 H195 C205 70 210 75 210 85 V90 C210 100 205 105 195 105 H35 C25 105 20 100 20 90 V85 C20 75 25 70 35 70Z" stroke="rgba(15,23,42,.55)" stroke-width="4"/>
+              <circle cx="60" cy="105" r="12" stroke="rgba(15,23,42,.55)" stroke-width="4"/>
+              <circle cx="170" cy="105" r="12" stroke="rgba(15,23,42,.55)" stroke-width="4"/>
+            </svg>
+          </div>
+          <div style="flex:1">
+            <div class="legend">
+              <span class="dot"><span class="circle ok"></span> OK</span>
+              <span class="dot"><span class="circle warn"></span> Próximo</span>
+              <span class="dot"><span class="circle bad"></span> Urgente</span>
+            </div>
+            <p class="sub" style="margin:10px 0 0">
+              Si hay 1 “Urgente”, el estado general pasa a rojo. Si no hay urgentes pero sí “Próximos”, pasa a amarillo.
+            </p>
+          </div>
+        </div>
+
+        <div class="card soft" style="margin-top:12px;">
+          <h3 class="h-title" style="margin-bottom:8px">Registrar mantenimiento externo</h3>
+          <div class="form-row">
+            <input class="field" id="extComp" placeholder="Componente (ej: Disco de freno)">
+            <input class="field" id="extKm" type="number" placeholder="Km en que lo cambiaste (ej: 76000)">
+          </div>
+          <div class="cta" style="margin-top:10px">
+            <button class="btn" id="btnRegExt">Registrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div class="section-title">
+      <h2>Checklist de componentes</h2>
+      <span class="chip">Consumibles + reemplazo</span>
+    </div>
+
+    <div class="card">
+      <div class="sub" style="margin:0 0 10px">
+        Marca ✅ si ya lo cambiaste fuera del portal (o regístralo arriba). Esto ajusta el diagnóstico.
+      </div>
+      <div class="comp-list" id="compList"></div>
+    </div>
+  </section>
+
+  <!-- ACCESORIOS -->
+  <section class="page" id="page-accesorios">
+    <div class="section-title">
+      <h2>Accesorios</h2>
+      <span class="chip">Limpia parabrisas • aromatizadores • tapetes…</span>
+    </div>
+
+    <div class="products">
+      <div class="p">
+        <div>
+          <span class="badge ok">⭐ Popular</span>
+          <p class="title">Aromatizador premium</p>
+          <p class="muted">Duración: 30 días</p>
+        </div>
+        <div class="price"><strong>S/ 19</strong><span class="type">Accesorio</span></div>
+        <div class="actions"><button class="btn primary">Agregar</button></div>
+      </div>
+
+      <div class="p">
+        <div>
+          <span class="badge ok">⭐ Popular</span>
+          <p class="title">Tapetes universales</p>
+          <p class="muted">Antideslizantes</p>
+        </div>
+        <div class="price"><strong>S/ 89</strong><span class="type">Accesorio</span></div>
+        <div class="actions"><button class="btn primary">Agregar</button></div>
+      </div>
+
+      <div class="p">
+        <div>
+          <span class="badge warn">⚠️ Elegir tamaño</span>
+          <p class="title">Limpia parabrisas</p>
+          <p class="muted">Indica pulgadas / modelo</p>
+        </div>
+        <div class="price"><strong>S/ 35</strong><span class="type">Accesorio</span></div>
+        <div class="actions"><button class="btn">Ver opciones</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUIÉNES SOMOS -->
+  <section class="page" id="page-quienesSomos">
+    <div class="section-title">
+      <h2>Quiénes somos</h2>
+      <span class="chip">Misión • Visión • Contacto</span>
+    </div>
+
+    <div class="hero-grid">
+      <div class="card">
+        <h3 class="h-title">Misión</h3>
+        <p class="sub">Hacer que la compra de repuestos sea simple, compatible y transparente (OEM vs alternos), con asistencia cuando el usuario no conoce el nombre.</p>
+        <h3 class="h-title">Visión</h3>
+        <p class="sub">Ser el “taller virtual” líder en experiencia omnicanal y mantenimiento planificado.</p>
+      </div>
+
+      <div class="card">
+        <h3 class="h-title">Contacto</h3>
+        <p class="sub">WhatsApp: +51 XXX XXX XXX<br>Email: soporte@autoparts.pe<br>Horario: Lun–Sáb</p>
+        <h3 class="h-title" style="margin-top:16px">Alianzas</h3>
+        <p class="sub">Talleres asociados con descuentos y atención preferencial para usuarios del portal.</p>
+        <h3 class="h-title" style="margin-top:16px">Promociones</h3>
+        <p class="sub">Campañas por categoría, por kilometraje o por temporada.</p>
+      </div>
     </div>
   </section>
 
 </main>
 
-<footer>
-  <div class="container footWrap">
-    <div class="footGrid">
-      <div class="footCol">
-        <h4>Información de la empresa</h4>
-        <a href="#">Quiénes somos</a>
-        <a href="#">Misión y visión</a>
-        <a href="#">Contáctanos</a>
-        <a href="#">Trabaja con nosotros</a>
-      </div>
-      <div class="footCol">
-        <h4>Atención al cliente</h4>
-        <a href="#">Política de devoluciones</a>
-        <a href="#">Política de envíos</a>
-        <a href="#">Reembolsos</a>
-        <a href="#">Reclamos</a>
-      </div>
-      <div class="footCol">
-        <h4>Ayuda</h4>
-        <a href="#">Centro de ayuda</a>
-        <a href="#">Preguntas frecuentes</a>
-        <a href="#">Seguridad</a>
-        <a href="#">Términos y condiciones</a>
-      </div>
-      <div class="footCol">
-        <h4>Certificación de seguridad</h4>
-        <div class="payRow">
-          <span class="badge">🔒 SSL Activo</span>
-          <span class="badge">🛡️ Compra protegida</span>
-          <span class="badge">✅ Checkout seguro</span>
-        </div>
-        <div class="payRow">
-          <span class="badge">💳 Visa</span>
-          <span class="badge">💳 MasterCard</span>
-          <span class="badge">🏦 Transferencia</span>
-          <span class="badge">📱 Yape/Plin (demo)</span>
-        </div>
-      </div>
-    </div>
+<!-- Chat FAB -->
+<button class="chat-fab" id="chatFab" title="Chatear con un asesor">💬</button>
 
-    <div style="margin-top:14px; font-size:12px; color:rgba(255,255,255,.55)">
-      © Taller360 — Demo para curso e-commerce & omnicanalidad.
-    </div>
+<div class="chat-panel" id="chatPanel" aria-hidden="true">
+  <div class="chat-head">
+    <div style="font-weight:900">Asesor</div>
+    <button class="btn" id="chatClose">✕</button>
   </div>
-</footer>
-
-<button class="chatFab" id="chatFab" title="Chatear con asesor">
-  <span class="chatDot"></span> Chatear con asesor
-</button>
+  <div class="chat-body" id="chatBody">
+    <div class="msg">Hola 👋 Soy tu asesor. ¿Buscas un repuesto por nombre, código o foto?</div>
+    <div class="msg">Tip: recuerda tener seleccionado tu vehículo para asegurar compatibilidad.</div>
+  </div>
+  <div class="chat-foot">
+    <input class="field" id="chatInput" placeholder="Escribe tu consulta…">
+    <button class="btn primary" id="chatSend">Enviar</button>
+  </div>
+</div>
 
 <script>
+  // ---- Estado demo ----
+  let vehicles = [
+    { id: 1, label: "Kia Rio 2018", marca:"Kia", modelo:"Rio", anio:2018, motor:"1.4", km:78400, placa:"" },
+    { id: 2, label: "VW Tiguan 2020", marca:"Volkswagen", modelo:"Tiguan", anio:2020, motor:"1.4 TSI", km:41200, placa:"" },
+    { id: 3, label: "Toyota Corolla 2016", marca:"Toyota", modelo:"Corolla", anio:2016, motor:"1.8", km:93500, placa:"" },
+  ];
+  let activeVehicleId = 1;
+
+  // Planificador: componentes base (vida útil demo)
+  let components = [
+    { key:"aceite", name:"Aceite de motor", lifeKm: 5000, cost: 89, lastChangeKm: 75000 },
+    { key:"filtro_aceite", name:"Filtro de aceite", lifeKm: 5000, cost: 48, lastChangeKm: 75000 },
+    { key:"filtro_aire", name:"Filtro de aire", lifeKm: 10000, cost: 65, lastChangeKm: 70000 },
+    { key:"pastillas", name:"Pastillas de freno", lifeKm: 30000, cost: 120, lastChangeKm: 50000 },
+    { key:"discos", name:"Disco de freno", lifeKm: 65000, cost: 380, lastChangeKm: 0 }, // 0 = desde compra
+  ];
+
+  let quotes = [];
+  let draftItems = [];
+
+  // ---- Utilidades ----
   const $ = (id)=>document.getElementById(id);
+  const fmtKm = (n)=> (n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const getActiveVehicle = ()=> vehicles.find(v=>v.id===activeVehicleId) || vehicles[0];
 
-  // Upload foto (buscador)
-  $("photoSearchBtn").onclick = ()=> $("photoFile").click();
-  $("btnTryPhoto").onclick = ()=> $("photoFile").click();
-  $("photoFile").addEventListener("change", (e)=>{
-    const f = e.target.files?.[0];
-    if(!f) return;
-    alert("Foto cargada: " + f.name + "\\nDemo: aquí se enviaría a IA/asesor para identificar el repuesto.");
-    e.target.value = "";
-  });
-
-  // CTAs
-  $("btnLogin").onclick = ()=> alert("Demo: Login");
-  $("btnSignup").onclick = ()=> alert("Demo: Registro");
-  $("ctaStart").onclick = ()=> alert("Demo: Registro / seleccionar vehículo");
-  $("ctaDemo").onclick = ()=> alert("Demo: mostrar cómo funciona");
-  $("chatFab").onclick = ()=> alert("Demo: abrir chat con asesor");
-
-  // Dropdown helpers
-  function closeAllDropdowns(){
-    $("ddCatalog").classList.remove("show");
-    $("ddMore").classList.remove("show");
+  function setActiveVehicle(id){
+    activeVehicleId = id;
+    const v = getActiveVehicle();
+    $("activeVehicleLabel").textContent = v.label;
+    $("vehChip").textContent = "Perfil: " + v.label;
+    $("vehInline").textContent = v.label;
+    $("kmLabel").textContent = fmtKm(v.km);
+    $("kmNow").textContent = fmtKm(v.km);
+    renderVehList();
+    renderComponents();
   }
-  document.addEventListener("click", (ev)=>{
-    const inCatalog = ev.target.closest("#navCatalog") || ev.target.closest("#ddCatalog");
-    const inMore = ev.target.closest("#navMore") || ev.target.closest("#ddMore");
-    if(!inCatalog) $("ddCatalog").classList.remove("show");
-    if(!inMore) $("ddMore").classList.remove("show");
+
+  // ---- Menú / navegación ----
+  const drawer = $("drawer");
+  const overlay = $("overlay");
+
+  $("openMenu").addEventListener("click", openMenu);
+  $("closeMenu").addEventListener("click", closeMenu);
+  overlay.addEventListener("click", closeMenu);
+  document.addEventListener("keydown", (e)=>{ if(e.key==="Escape") { closeMenu(); closeChat(); } });
+
+  function openMenu(){
+    drawer.classList.add("open");
+    overlay.classList.add("show");
+    drawer.setAttribute("aria-hidden","false");
+  }
+  function closeMenu(){
+    drawer.classList.remove("open");
+    overlay.classList.remove("show");
+    drawer.setAttribute("aria-hidden","true");
+  }
+
+  function showPage(pageKey){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    const el = document.querySelector("#page-" + pageKey);
+    if(el) el.classList.add("active");
+
+    document.querySelectorAll("#nav a").forEach(a=>a.classList.remove("active"));
+    const navA = document.querySelector(`#nav a[data-page="${pageKey}"]`);
+    if(navA) navA.classList.add("active");
+
+    document.querySelectorAll("[data-pagebtn]").forEach(b=>b.classList.remove("active"));
+    const b = document.querySelector(`[data-pagebtn="${pageKey}"]`);
+    if(b) b.classList.add("active");
+
+    closeMenu();
+    window.scrollTo({top:0, behavior:"smooth"});
+  }
+
+  document.querySelectorAll("#nav a").forEach(a=>{
+    a.addEventListener("click",(e)=>{
+      e.preventDefault();
+      showPage(a.dataset.page);
+    })
   });
 
-  // Catálogo mega
-  $("navCatalog").onclick = (e)=>{
-    e.preventDefault();
-    $("ddCatalog").classList.toggle("show");
-    $("ddMore").classList.remove("show");
-  };
-  document.querySelectorAll(".megaCard").forEach(c=>{
-    c.onclick = ()=> alert("Demo: abrir catálogo -> " + c.dataset.cat);
+  document.querySelectorAll("[data-pagebtn]").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      showPage(b.dataset.pagebtn);
+    })
   });
 
-  // Más dropdown
-  $("navMore").onclick = (e)=>{
-    e.preventDefault();
-    $("ddMore").classList.toggle("show");
-    $("ddCatalog").classList.remove("show");
-  };
-  document.querySelectorAll(".ddItem").forEach(i=>{
-    i.onclick = ()=> alert("Demo: ir a -> " + i.dataset.go);
+  document.querySelectorAll("[data-goto]").forEach(b=>{
+    b.addEventListener("click", ()=> showPage(b.dataset.goto));
   });
 
-  // Nav links demo
-  $("navOffers").onclick = (e)=>{e.preventDefault(); alert("Demo: Ofertas del día");};
-  $("navAlliances").onclick = (e)=>{e.preventDefault(); alert("Demo: Alianzas");};
-  $("navHow").onclick = (e)=>{e.preventDefault(); alert("Demo: Cómo funciona");};
-  $("navBlog").onclick = (e)=>{e.preventDefault(); alert("Demo: Blog");};
+  $("btnVerCotMantto").addEventListener("click", ()=> showPage("cotizaciones"));
+
+  // ---- Garaje ----
+  function renderVehList(){
+    const list = $("vehList");
+    list.innerHTML = "";
+    vehicles.forEach(v=>{
+      const div = document.createElement("div");
+      div.className = "veh" + (v.id===activeVehicleId ? " active":"");
+      div.innerHTML = `
+        <div>
+          <div class="name">${v.label}</div>
+          <div class="meta">${fmtKm(v.km)} km • ${v.motor || "—"} • ${v.placa || "sin placa"}</div>
+        </div>
+        <div class="chip">Usar</div>
+      `;
+      div.addEventListener("click", ()=> setActiveVehicle(v.id));
+      list.appendChild(div);
+    });
+  }
+
+  $("btnAddVeh").addEventListener("click", ()=>{
+    const marca = $("fMarca").value.trim();
+    const modelo = $("fModelo").value.trim();
+    const anio = parseInt($("fAnio").value || "0", 10);
+    const motor = $("fMotor").value.trim();
+    const km = parseInt($("fKm").value || "0", 10);
+    const placa = $("fPlaca").value.trim();
+
+    if(!marca || !modelo || !anio){
+      alert("Completa al menos Marca, Modelo y Año.");
+      return;
+    }
+
+    const id = Math.max(...vehicles.map(v=>v.id))+1;
+    const label = `${marca} ${modelo} ${anio}`;
+    vehicles.push({id, label, marca, modelo, anio, motor, km, placa});
+
+    ["fMarca","fModelo","fAnio","fMotor","fKm","fPlaca"].forEach(k=>$(k).value="");
+    setActiveVehicle(id);
+    alert("Vehículo agregado y activado.");
+  });
+
+  // ---- Planificador ----
+  function statusFromRemaining(rem){
+    if(rem <= 0) return "bad";
+    if(rem <= 1500) return "warn";
+    return "ok";
+  }
+
+  function renderComponents(){
+    const v = getActiveVehicle();
+    const list = $("compList");
+    list.innerHTML = "";
+
+    components.forEach(c=>{
+      const last = c.lastChangeKm || 0;
+      const nextDue = last + c.lifeKm;
+      const rem = nextDue - v.km;
+      const status = statusFromRemaining(rem);
+
+      const used = Math.max(0, v.km - last);
+      const pct = Math.min(100, Math.round((used / c.lifeKm) * 100));
+      const color = status==="ok" ? "var(--ok)" : status==="warn" ? "var(--warn)" : "var(--bad)";
+
+      const kmPerMonth = 1200; // demo
+      const months = rem > 0 ? Math.max(0.1, rem / kmPerMonth) : 0;
+
+      const div = document.createElement("div");
+      div.className = "comp";
+      div.innerHTML = `
+        <div class="top">
+          <div style="display:flex; gap:10px; align-items:flex-start">
+            <input type="checkbox" style="margin-top:4px; transform:scale(1.12)" title="Marcar como atendido (demo)">
+            <div>
+              <div class="name">${c.name}</div>
+              <div class="small">Vida útil: ${fmtKm(c.lifeKm)} km • Último cambio: ${last ? fmtKm(last) : "0 (desde compra)"}</div>
+              <div class="small">Costo ref.: S/ ${c.cost} • Próximo: ${fmtKm(nextDue)} km • ${rem>0 ? `${fmtKm(rem)} km restantes` : "Vencido"}</div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end">
+            <span class="status-pill" style="border-color:${color}; color:${status==="ok"?"#166534":status==="warn"?"#92400e":"#991b1b"}">
+              ${status==="ok"?"OK (Verde)":status==="warn"?"Próximo (Amarillo)":"Urgente (Rojo)"}
+            </span>
+            <span class="chip">${rem>0 ? `~ ${(months).toFixed(1)} meses` : `Cambiar ya`}</span>
+          </div>
+        </div>
+
+        <div class="bar">
+          <div style="width:${pct}%; background:${color}"></div>
+        </div>
+
+        <div class="cta" style="margin-top:10px">
+          <button class="btn">Ver repuestos</button>
+          <button class="btn">Buscar alternos</button>
+        </div>
+      `;
+      list.appendChild(div);
+    });
+
+    // KPI + semáforo general
+    let ok=0, warn=0, bad=0;
+    components.forEach(c=>{
+      const last = c.lastChangeKm || 0;
+      const nextDue = last + c.lifeKm;
+      const rem = nextDue - v.km;
+      const s = statusFromRemaining(rem);
+      if(s==="ok") ok++; else if(s==="warn") warn++; else bad++;
+    });
+    $("kpiOk").textContent = ok;
+    $("kpiWarn").textContent = warn;
+    $("kpiBad").textContent = bad;
+
+    const traffic = bad>0 ? "🔴 Rojo" : warn>0 ? "🟡 Amarillo" : "🟢 Verde";
+    $("trafficLabel").textContent = "Estado general: " + traffic;
+  }
+
+  $("btnUpdateKm").addEventListener("click", ()=>{
+    const v = getActiveVehicle();
+    const newKm = parseInt($("kmUpdate").value || "0", 10);
+    if(!newKm || newKm < 0){ alert("Ingresa un km válido."); return; }
+    v.km = newKm;
+    $("kmUpdate").value = "";
+    setActiveVehicle(activeVehicleId);
+    alert("Km actualizado. Diagnóstico recalculado.");
+  });
+
+  $("btnRegExt").addEventListener("click", ()=>{
+    const compName = $("extComp").value.trim().toLowerCase();
+    const km = parseInt($("extKm").value || "0", 10);
+    if(!compName || !km){ alert("Completa componente y km."); return; }
+
+    const c = components.find(x=> x.name.toLowerCase().includes(compName) || compName.includes(x.name.toLowerCase().split(" ")[0]));
+    if(!c){
+      alert("No encontré ese componente en la lista demo. (En real: se agrega al catálogo de planificador)");
+      return;
+    }
+    c.lastChangeKm = km;
+    $("extComp").value=""; $("extKm").value="";
+    renderComponents();
+    alert("Mantenimiento externo registrado.");
+  });
+
+  $("btnAskKm").addEventListener("click", ()=>{
+    alert("Demo: aquí iría el recordatorio (email/WhatsApp/SMS) para pedir actualización de km.");
+  });
+
+  // ---- Cotizaciones ----
+  function renderDraftItems(){
+    const box = $("quoteItems");
+    if(draftItems.length===0){
+      box.innerHTML = "<span class='sub'>Sin ítems aún.</span>";
+      return;
+    }
+    let total = 0;
+    box.innerHTML = draftItems.map((it,i)=>{
+      total += it.price;
+      return `<div style="display:flex; justify-content:space-between; gap:10px; margin:6px 0">
+        <span>${i+1}. ${it.name}</span><b>S/ ${it.price}</b>
+      </div>`;
+    }).join("") + `<hr style="border-color:rgba(231,233,240,.95);margin:10px 0">
+    <div style="display:flex; justify-content:space-between"><span><b>Total</b></span><b>S/ ${total}</b></div>`;
+  }
+
+  $("btnAddItem").addEventListener("click", ()=>{
+    const name = $("qItem").value.trim();
+    const price = parseFloat($("qPrecio").value || "0");
+    if(!name || !price){ alert("Ingresa ítem y precio."); return; }
+    draftItems.push({name, price});
+    $("qItem").value=""; $("qPrecio").value="";
+    renderDraftItems();
+  });
+
+  $("btnSaveQuote").addEventListener("click", ()=>{
+    const title = $("qTitulo").value.trim() || "Cotización sin título";
+    const notes = $("qNotas").value.trim();
+    const v = getActiveVehicle();
+    if(draftItems.length===0){ alert("Agrega al menos un ítem."); return; }
+    const id = quotes.length + 1;
+    const total = draftItems.reduce((s,x)=>s+x.price,0);
+    quotes.unshift({id, title, notes, vehicle:v.label, total, items:[...draftItems], date:new Date().toLocaleString()});
+    draftItems = [];
+    ["qTitulo","qNotas"].forEach(k=>$(k).value="");
+    renderDraftItems();
+    renderQuotes();
+    alert("Cotización guardada.");
+    showPage("cotizaciones");
+  });
+
+  function renderQuotes(){
+    $("quotesCount").textContent = `${quotes.length} registradas`;
+    if(quotes.length===0){
+      $("quotesTable").innerHTML = "<div class='sub'>Aún no tienes cotizaciones.</div>";
+      return;
+    }
+    $("quotesTable").innerHTML = quotes.map(q=>`
+      <div class="card soft" style="margin-bottom:10px">
+        <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start">
+          <div>
+            <div style="font-weight:900">${q.title}</div>
+            <div class="sub" style="margin:6px 0 0">Vehículo: <b>${q.vehicle}</b> • ${q.date}</div>
+            ${q.notes ? `<div class="sub" style="margin:6px 0 0">Notas: ${q.notes}</div>` : ""}
+          </div>
+          <div style="text-align:right">
+            <div class="chip"><b>Total:</b> S/ ${q.total.toFixed(2)}</div>
+          </div>
+        </div>
+        <div class="sub" style="margin-top:10px">
+          ${q.items.slice(0,4).map(i=>`• ${i.name} (S/ ${i.price})`).join("<br>")}
+          ${q.items.length>4 ? `<br>… +${q.items.length-4} ítems` : ""}
+        </div>
+      </div>
+    `).join("");
+  }
+
+  // ---- Chat ----
+  const chatPanel = $("chatPanel");
+  function openChat(){ chatPanel.classList.add("show"); chatPanel.setAttribute("aria-hidden","false"); }
+  function closeChat(){ chatPanel.classList.remove("show"); chatPanel.setAttribute("aria-hidden","true"); }
+  $("chatFab").addEventListener("click", ()=> chatPanel.classList.contains("show") ? closeChat() : openChat());
+  $("chatClose").addEventListener("click", closeChat);
+
+  function sendChat(){
+    const txt = $("chatInput").value.trim();
+    if(!txt) return;
+    const wrap = $("chatBody");
+
+    const me = document.createElement("div");
+    me.className="msg";
+    me.style.color="var(--text)";
+    me.innerHTML = `<b>Tú:</b> ${txt}`;
+    wrap.appendChild(me);
+
+    const v = getActiveVehicle();
+    const bot = document.createElement("div");
+    bot.className="msg";
+    bot.innerHTML = `Entendido. Estoy usando el perfil <b>${v.label}</b>. ¿Quieres OEM o alternos? (Demo)`;
+    wrap.appendChild(bot);
+
+    $("chatInput").value="";
+    wrap.scrollTop = wrap.scrollHeight;
+  }
+  $("chatSend").addEventListener("click", sendChat);
+  $("chatInput").addEventListener("keydown",(e)=>{ if(e.key==="Enter") sendChat(); });
+
+  // Botones rápidos
+  $("btnAsesor").addEventListener("click", openChat);
+  $("btnAsesor2").addEventListener("click", openChat);
+  $("btnFoto").addEventListener("click", ()=> alert("Demo: aquí abrirías la pantalla de subir foto / IA."));
+  $("btnSubirFoto").addEventListener("click", ()=> alert("Demo: aquí abrirías el flujo de subir foto."));
+
+  // Init
+  renderVehList();
+  renderDraftItems();
+  renderQuotes();
+  setActiveVehicle(activeVehicleId);
 </script>
 </body>
 </html>
